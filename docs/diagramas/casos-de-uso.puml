@@ -1,0 +1,98 @@
+@startuml casos-de-uso-sistema-matriculas
+' Sistema de Matriculas - PUC Minas
+' Laboratorio de Desenvolvimento de Software - Lab01S01
+' Diagrama de Casos de Uso
+
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam shadowing false
+
+actor "Usuario" as USR
+actor "Aluno" as ALU
+actor "Professor" as PRO
+actor "Secretaria" as SEC
+actor "Sistema de Cobranca" as COB <<external>>
+
+USR <|-- ALU
+USR <|-- PRO
+USR <|-- SEC
+
+rectangle "Sistema de Matriculas" {
+
+  ' --- Acesso ---
+  usecase "UC01 - Autenticar Usuario" as UC01
+  usecase "UC02 - Alterar Senha" as UC02
+
+  ' --- Cadastros (Secretaria) ---
+  usecase "UC03 - Manter Curso" as UC03
+  usecase "UC04 - Manter Disciplina" as UC04
+  usecase "UC05 - Manter Professor" as UC05
+  usecase "UC06 - Manter Aluno" as UC06
+
+  ' --- Curriculo e Periodo (Secretaria) ---
+  usecase "UC07 - Gerar Curriculo do Semestre" as UC07
+  usecase "UC08 - Definir Periodo de Matriculas" as UC08
+  usecase "UC09 - Encerrar Periodo de Matriculas" as UC09
+  usecase "UC10 - Ativar/Cancelar Disciplinas" as UC10
+
+  ' --- Matricula (Aluno) ---
+  usecase "UC11 - Consultar Disciplinas Ofertadas" as UC11
+  usecase "UC12 - Realizar Matricula" as UC12
+  usecase "UC13 - Cancelar Matricula" as UC13
+  usecase "UC14 - Consultar Quadro de Matriculas" as UC14
+
+  ' --- Cobranca ---
+  usecase "UC15 - Notificar Sistema de Cobranca" as UC15
+
+  ' --- Consultas (Professor) ---
+  usecase "UC16 - Consultar Minhas Disciplinas" as UC16
+  usecase "UC17 - Consultar Alunos Matriculados" as UC17
+}
+
+' Associacoes do ator generalizado
+USR -- UC01
+USR -- UC02
+
+' Aluno
+ALU -- UC11
+ALU -- UC12
+ALU -- UC13
+ALU -- UC14
+
+' Professor
+PRO -- UC16
+PRO -- UC17
+
+' Secretaria
+SEC -- UC03
+SEC -- UC04
+SEC -- UC05
+SEC -- UC06
+SEC -- UC07
+SEC -- UC08
+SEC -- UC09
+
+' Ator secundario
+UC15 -- COB
+
+' Relacionamentos entre casos de uso
+UC12 ..> UC01 : <<include>>
+UC13 ..> UC01 : <<include>>
+UC12 ..> UC15 : <<include>>
+UC09 ..> UC10 : <<include>>
+
+note right of UC12
+  RN03: max. 4 disciplinas obrigatorias
+  RN04: max. 2 disciplinas optativas
+  RN05: somente no periodo de matriculas
+  RN06: max. 60 alunos por disciplina
+  RN09: sem matricula em duplicidade
+end note
+
+note bottom of UC10
+  RN07: disciplina com >= 3 alunos e ativada;
+  caso contrario, e cancelada (RN08)
+end note
+
+@enduml

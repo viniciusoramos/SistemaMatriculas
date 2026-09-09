@@ -1,0 +1,17 @@
+target/
+bin/
+out/
+build/
+*.class
+*.jar
+!plantuml.jar
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+dados/
+*.dat
+.DS_Store
+Thumbs.db
