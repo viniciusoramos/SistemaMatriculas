@@ -183,7 +183,13 @@ Todos os usuários possuem senha, utilizada para validação do respectivo login
 
 ## 6. Diagrama de Casos de Uso
 
-> Arquivo-fonte (PlantUML): [`docs/diagramas/casos-de-uso.puml`](docs/diagramas/casos-de-uso.puml)
+![Diagrama de Casos de Uso do Sistema de Matrículas](docs/diagramas/casos-de-uso.png)
+
+> **Arquivo-fonte (PlantUML):** [`docs/diagramas/casos-de-uso.puml`](docs/diagramas/casos-de-uso.puml) ·
+> **Imagem gerada:** [PNG](docs/diagramas/casos-de-uso.png) · [SVG](docs/diagramas/casos-de-uso.svg)
+
+<details>
+<summary>Versão equivalente em Mermaid (renderizada pelo próprio GitHub)</summary>
 
 ```mermaid
 flowchart LR
@@ -242,6 +248,8 @@ flowchart LR
     UC12 -. include .-> UC01
     UC13 -. include .-> UC01
 ```
+
+</details>
 
 **Relacionamentos representados**
 
@@ -861,22 +869,31 @@ SistemaMatriculas/
 ├── .gitignore
 └── docs/
     └── diagramas/
-        └── casos-de-uso.puml         # Fonte PlantUML do diagrama de casos de uso
+        ├── casos-de-uso.puml         # Fonte PlantUML do diagrama de casos de uso
+        ├── casos-de-uso.png          # Imagem gerada a partir do fonte
+        └── casos-de-uso.svg          # Versão vetorial (melhor para impressão/slides)
 ```
 
 > A partir do **Lab01S02**, o repositório receberá `docs/diagramas/diagrama-classes.puml`
 > e o diretório `src/` com o projeto Java.
 
-### Como visualizar o diagrama
+### Como gerar o diagrama
 
-O diagrama de casos de uso está embutido neste README em Mermaid (renderizado
-automaticamente pelo GitHub). Para gerar a imagem a partir do fonte PlantUML:
+O PNG e o SVG do repositório são gerados a partir de
+[`docs/diagramas/casos-de-uso.puml`](docs/diagramas/casos-de-uso.puml). Ao alterar o fonte,
+regenere as imagens por uma das opções:
 
 ```bash
-# Opção 1 — online: colar o conteúdo de docs/diagramas/casos-de-uso.puml em https://www.plantuml.com/plantuml
-# Opção 2 — local (requer Java e plantuml.jar):
-java -jar plantuml.jar docs/diagramas/casos-de-uso.puml
+# Opção 1 — local (requer Java e o plantuml.jar em https://plantuml.com/download):
+java -jar plantuml.jar -charset UTF-8 -tpng -o . docs/diagramas/casos-de-uso.puml
+java -jar plantuml.jar -charset UTF-8 -tsvg -o . docs/diagramas/casos-de-uso.puml
+
+# Opção 2 — online: colar o conteúdo do .puml em https://www.plantuml.com/plantuml
+# e salvar a imagem (botão direito sobre o diagrama > Salvar imagem como...,
+# ou os links PNG/SVG abaixo do editor) em docs/diagramas/casos-de-uso.png
 ```
+
+> O `-charset UTF-8` é necessário para os acentos saírem corretos no diagrama.
 
 ---
 
