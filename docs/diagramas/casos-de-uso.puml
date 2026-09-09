@@ -1,56 +1,83 @@
 @startuml casos-de-uso-sistema-matriculas
-' Sistema de Matriculas - PUC Minas
-' Laboratorio de Desenvolvimento de Software - Lab01S01
-' Diagrama de Casos de Uso
+' =====================================================================
+' Sistema de Matrículas - PUC Minas
+' Laboratório de Desenvolvimento de Software - Laboratório 2 (2026/2)
+' Sprint Lab01S01 - Diagrama de Casos de Uso
+'
+' Alinhado com o README.md:
+'   - Secao 3  : Requisitos Funcionais  (RF01 a RF29)
+'   - Secao 5  : Regras de Negocio      (RN01 a RN12)
+'   - Secao 7/8: detalhamento dos casos de uso pelas historias US01 a US16
+' Os requisitos nao funcionais (Secao 4) nao aparecem aqui: sao atributos
+' de qualidade do sistema, nao comportamento de um caso de uso.
+' =====================================================================
+
+title Sistema de Matrículas — Diagrama de Casos de Uso (Lab01S01)
 
 left to right direction
 skinparam packageStyle rectangle
 skinparam actorStyle awesome
 skinparam shadowing false
+skinparam usecase {
+  BackgroundColor #FDFDFD
+  BorderColor #444444
+  ArrowColor #444444
+}
 
-actor "Usuario" as USR
+' ---------------------------------------------------------------------
+' Atores
+' ---------------------------------------------------------------------
+actor "Usuário" as USR
 actor "Aluno" as ALU
 actor "Professor" as PRO
 actor "Secretaria" as SEC
-actor "Sistema de Cobranca" as COB <<external>>
+actor "Sistema de Cobrança" as COB <<sistema externo>>
 
+' Generalizacao: todo ator humano do sistema e um usuario autenticavel (RN01)
 USR <|-- ALU
 USR <|-- PRO
 USR <|-- SEC
 
-rectangle "Sistema de Matriculas" {
+' ---------------------------------------------------------------------
+' Fronteira do sistema
+' ---------------------------------------------------------------------
+rectangle "Sistema de Matrículas" {
 
-  ' --- Acesso ---
-  usecase "UC01 - Autenticar Usuario" as UC01
+  ' --- Acesso ao sistema ---
+  usecase "UC01 - Autenticar Usuário" as UC01
   usecase "UC02 - Alterar Senha" as UC02
 
-  ' --- Cadastros (Secretaria) ---
+  ' --- Manutencao de cadastros (Secretaria) ---
   usecase "UC03 - Manter Curso" as UC03
   usecase "UC04 - Manter Disciplina" as UC04
   usecase "UC05 - Manter Professor" as UC05
   usecase "UC06 - Manter Aluno" as UC06
 
-  ' --- Curriculo e Periodo (Secretaria) ---
-  usecase "UC07 - Gerar Curriculo do Semestre" as UC07
-  usecase "UC08 - Definir Periodo de Matriculas" as UC08
-  usecase "UC09 - Encerrar Periodo de Matriculas" as UC09
+  ' --- Curriculo e periodo de matriculas (Secretaria) ---
+  usecase "UC07 - Gerar Currículo do Semestre" as UC07
+  usecase "UC08 - Definir Período de Matrículas" as UC08
+  usecase "UC09 - Encerrar Período de Matrículas" as UC09
   usecase "UC10 - Ativar/Cancelar Disciplinas" as UC10
 
   ' --- Matricula (Aluno) ---
   usecase "UC11 - Consultar Disciplinas Ofertadas" as UC11
-  usecase "UC12 - Realizar Matricula" as UC12
-  usecase "UC13 - Cancelar Matricula" as UC13
-  usecase "UC14 - Consultar Quadro de Matriculas" as UC14
+  usecase "UC12 - Realizar Matrícula" as UC12
+  usecase "UC13 - Cancelar Matrícula" as UC13
+  usecase "UC14 - Consultar Quadro de Matrículas" as UC14
 
   ' --- Cobranca ---
-  usecase "UC15 - Notificar Sistema de Cobranca" as UC15
+  usecase "UC15 - Notificar Sistema de Cobrança" as UC15
 
   ' --- Consultas (Professor) ---
   usecase "UC16 - Consultar Minhas Disciplinas" as UC16
   usecase "UC17 - Consultar Alunos Matriculados" as UC17
 }
 
-' Associacoes do ator generalizado
+' ---------------------------------------------------------------------
+' Associacoes ator x caso de uso
+' ---------------------------------------------------------------------
+
+' Usuario (herdado por Aluno, Professor e Secretaria)
 USR -- UC01
 USR -- UC02
 
@@ -73,26 +100,61 @@ SEC -- UC07
 SEC -- UC08
 SEC -- UC09
 
-' Ator secundario
+' Ator secundario (externo)
 UC15 -- COB
 
+' ---------------------------------------------------------------------
 ' Relacionamentos entre casos de uso
+' ---------------------------------------------------------------------
 UC12 ..> UC01 : <<include>>
 UC13 ..> UC01 : <<include>>
 UC12 ..> UC15 : <<include>>
 UC09 ..> UC10 : <<include>>
 
+' ---------------------------------------------------------------------
+' Regras de negocio associadas aos casos de uso
+' ---------------------------------------------------------------------
 note right of UC12
-  RN03: max. 4 disciplinas obrigatorias
-  RN04: max. 2 disciplinas optativas
-  RN05: somente no periodo de matriculas
-  RN06: max. 60 alunos por disciplina
-  RN09: sem matricula em duplicidade
+  **RF18, RF19, RF21, RF22, RF23, RF25**
+  RN03: máx. 4 disciplinas obrigatórias (1ª opção)
+  RN04: máx. 2 disciplinas optativas
+  RN05: somente durante o período de matrículas
+  RN06: máx. 60 alunos por disciplina
+  RN09: sem matrícula em duplicidade
+  RN10: notifica a cobrança ao concluir a inscrição
 end note
 
 note bottom of UC10
-  RN07: disciplina com >= 3 alunos e ativada;
-  caso contrario, e cancelada (RN08)
+  **RF15**
+  RN07: disciplina com >= 3 alunos matriculados
+  é ativada; caso contrário, é cancelada
+  RN08: as matrículas da disciplina cancelada
+  também passam a "cancelada"
 end note
+
+
+' ---------------------------------------------------------------------
+' Legenda
+' ---------------------------------------------------------------------
+legend right
+  |= Caso de uso |= História |= Requisitos Funcionais |= Regras de Negócio |
+  | UC01 Autenticar Usuário | US01 | RF01, RF02, RF03, RF05 | RN01 |
+  | UC02 Alterar Senha | US02 | RF04 | RN01 |
+  | UC03 Manter Curso | US03 | RF06, RF08 | RN02, RN12 |
+  | UC04 Manter Disciplina | US04 | RF07, RF08 | RN02, RN06, RN07, RN12 |
+  | UC05 Manter Professor | US05 | RF09, RF11 | RN01, RN11, RN12 |
+  | UC06 Manter Aluno | US06 | RF10 | RN01, RN12 |
+  | UC07 Gerar Currículo do Semestre | US07 | RF11, RF12 | RN02, RN12 |
+  | UC08 Definir Período de Matrículas | US08 | RF13, RF21 | RN05, RN12 |
+  | UC09 Encerrar Período de Matrículas | US09 | RF14, RF16 | RN05, RN12 |
+  | UC10 Ativar/Cancelar Disciplinas | US09 | RF15 | RN07, RN08 |
+  | UC11 Consultar Disciplinas Ofertadas | US10 | RF17 | RN06 |
+  | UC12 Realizar Matrícula | US11 | RF18, RF19, RF21-RF23, RF25 | RN03, RN04, RN05, RN06, RN09, RN10 |
+  | UC13 Cancelar Matrícula | US12 | RF20, RF21 | RN05, RN06 |
+  | UC14 Consultar Quadro de Matrículas | US13 | RF24 | RN03, RN04, RN08 |
+  | UC15 Notificar Sistema de Cobrança | US14 | RF25, RF26 | RN10 |
+  | UC16 Consultar Minhas Disciplinas | US15 | RF27, RF29 | RN11 |
+  | UC17 Consultar Alunos Matriculados | US16 | RF28, RF29 | RN11 |
+end legend
 
 @enduml
