@@ -261,6 +261,11 @@ Cada caso de uso do diagrama é **detalhado por uma história de usuário** na
 [Seção 8](#8-histórias-de-usuário--detalhamento-dos-casos-de-uso), onde constam pré-condições,
 pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios de aceitação.
 
+> Os casos de uso rastreiam apenas **requisitos funcionais** (RF) e as **regras de negócio**
+> (RN) que restringem cada ação. Os requisitos não funcionais da
+> [Seção 4](#4-requisitos-não-funcionais) são atributos de qualidade do sistema como um todo
+> e, por isso, não aparecem no detalhamento dos casos de uso.
+
 | Caso de Uso | Ator principal | História que o detalha | Requisitos |
 |---|---|---|---|
 | UC01 — Autenticar Usuário | Aluno, Professor, Secretaria | [US01](#us01--realizar-login-no-sistema) | RF01, RF02, RF03 |
@@ -303,13 +308,12 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 **Fluxo principal (FP)**
 1. O sistema apresenta a tela de login.
 2. O usuário informa o identificador (matrícula, código do professor ou usuário da secretaria) e a senha.
-3. O sistema localiza o usuário e compara o hash da senha informada com o armazenado.
+3. O sistema valida as credenciais informadas.
 4. O sistema identifica o perfil do usuário (Aluno, Professor ou Secretaria).
 5. O sistema abre a sessão e exibe o menu correspondente ao perfil.
 
 **Fluxos alternativos e de exceção**
 - **FE1 — Credenciais inválidas (passo 3):** o sistema exibe "Login ou senha inválidos" e retorna ao passo 1.
-- **FE2 — Usuário inexistente (passo 3):** o sistema exibe a mesma mensagem genérica, sem revelar se o login existe.
 - **FA1 — Logout:** a qualquer momento o usuário pode encerrar a sessão e retornar ao passo 1.
 
 **Critérios de aceitação**
@@ -317,7 +321,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - Dado que informo uma senha incorreta, quando confirmo o acesso, então recebo "Login ou senha inválidos" e permaneço na tela de login.
 - Dado que não estou autenticado, quando tento acessar qualquer funcionalidade, então o acesso é negado.
 
-**Rastreabilidade:** RF01, RF02, RF03, RF05 · RN01 · RNF04, RNF05, RNF06
+**Rastreabilidade:** RF01, RF02, RF03, RF05 · RN01
 
 ---
 
@@ -335,7 +339,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 **Fluxo principal (FP)**
 1. O usuário seleciona "Alterar senha" no menu.
 2. O usuário informa a senha atual e a nova senha (com confirmação).
-3. O sistema valida a senha atual e as regras de formação da nova senha.
+3. O sistema valida a senha atual informada.
 4. O sistema grava o hash da nova senha e confirma a operação.
 
 **Fluxos alternativos e de exceção**
@@ -345,9 +349,8 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 **Critérios de aceitação**
 - Dado que estou autenticado, quando informo a senha atual correta e a nova senha, então a senha é atualizada.
 - Dado que informo a senha atual incorreta, quando confirmo, então a alteração é recusada.
-- A senha é armazenada como hash, nunca em texto puro.
 
-**Rastreabilidade:** RF04 · RN01 · RNF04
+**Rastreabilidade:** RF04 · RN01
 
 ---
 
@@ -381,7 +384,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - Dado que um curso já possui disciplinas associadas, quando tento removê-lo, então o sistema alerta sobre a dependência.
 - A listagem exibe nome, créditos e a quantidade de disciplinas do curso.
 
-**Rastreabilidade:** RF06, RF08 · RN02, RN12 · RNF03
+**Rastreabilidade:** RF06, RF08 · RN02, RN12
 
 ---
 
@@ -567,7 +570,6 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 
 **Fluxos alternativos e de exceção**
 - **FE1 — Não há período aberto (passo 1):** o sistema informa que não existe período de matrículas em andamento.
-- **FE2 — Falha na gravação (passo 6):** nenhuma alteração é confirmada e o período permanece aberto.
 - **FA1 — Consulta posterior do relatório:** a secretaria reexibe o resultado do último encerramento.
 
 **Critérios de aceitação**
@@ -577,7 +579,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - Ao final, o sistema apresenta o relatório com disciplinas ativadas, canceladas e o número de matriculados de cada uma.
 - Dado que o período foi encerrado, quando um aluno tenta se matricular, então a operação é recusada.
 
-**Rastreabilidade:** RF14, RF15, RF16 · RN05, RN07, RN08, RN12 · RNF09
+**Rastreabilidade:** RF14, RF15, RF16 · RN05, RN07, RN08, RN12
 
 ---
 
@@ -639,7 +641,6 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - **FE3 — Limite de 2 optativas atingido (passo 5):** o sistema recusa e informa o limite.
 - **FE4 — Disciplina lotada, 60 matriculados (passo 5):** o sistema recusa e informa que as inscrições para a disciplina estão encerradas.
 - **FE5 — Matrícula em duplicidade (passo 5):** o sistema recusa e informa que o aluno já está matriculado na disciplina.
-- **FE6 — Falha na gravação (passo 6):** a matrícula não é registrada e a vaga não é consumida (operação atômica).
 
 **Critérios de aceitação**
 - Dado que o período está aberto e há vagas, quando me matriculo em uma disciplina, então a matrícula é registrada e a vaga é reservada.
@@ -650,7 +651,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - Dado que o período de matrículas está fechado, quando tento me matricular, então o sistema recusa e informa o motivo.
 - Dado que concluo minha inscrição no semestre, então o sistema de cobrança é notificado.
 
-**Rastreabilidade:** RF18, RF19, RF21, RF22, RF23, RF25 · RN03, RN04, RN05, RN06, RN09, RN10 · RNF09
+**Rastreabilidade:** RF18, RF19, RF21, RF22, RF23, RF25 · RN03, RN04, RN05, RN06, RN09, RN10
 
 ---
 
@@ -731,7 +732,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 **Fluxo principal (FP)**
 1. O sistema de matrículas detecta a conclusão da inscrição do aluno no semestre.
 2. O sistema monta a notificação com identificação do aluno, semestre e disciplinas matriculadas (com créditos).
-3. O sistema envia a notificação ao sistema de cobrança pela interface de integração.
+3. O sistema envia a notificação ao sistema de cobrança.
 4. O sistema registra o envio (data/hora, aluno, disciplinas e situação do envio).
 
 **Fluxos alternativos e de exceção**
@@ -741,9 +742,8 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 **Critérios de aceitação**
 - Dado que o aluno conclui sua inscrição no semestre, quando a operação é confirmada, então uma notificação com aluno, semestre e disciplinas é enviada ao sistema de cobrança.
 - A notificação é registrada e pode ser consultada posteriormente pela secretaria.
-- A integração é feita por uma interface, permitindo trocar a implementação sem alterar as regras de matrícula.
 
-**Rastreabilidade:** RF25, RF26 · RN10 · RNF10, RNF14
+**Rastreabilidade:** RF25, RF26 · RN10
 
 ---
 
@@ -772,7 +772,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - A listagem exibe apenas as disciplinas em que sou o professor responsável.
 - Cada disciplina exibe o total de matriculados e sua situação (ativa, cancelada ou aguardando encerramento).
 
-**Rastreabilidade:** RF27, RF29 · RN11 · RNF06
+**Rastreabilidade:** RF27, RF29 · RN11
 
 ---
 
@@ -795,14 +795,14 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 
 **Fluxos alternativos e de exceção**
 - **FA1 — Disciplina sem matriculados (passo 4):** o sistema informa que ainda não há alunos inscritos.
-- **FE1 — Disciplina de outro professor (passo 3):** o acesso é negado e a operação registrada como tentativa indevida.
+- **FE1 — Disciplina de outro professor (passo 3):** o professor não visualiza a disciplina na lista e o acesso é negado.
 
 **Critérios de aceitação**
 - Dado que seleciono uma disciplina minha, quando consulto, então vejo a lista de alunos matriculados com matrícula, nome e curso.
 - Dado que tento consultar uma disciplina de outro professor, então o acesso é negado.
 - O total de matriculados exibido corresponde ao número de matrículas ativas na disciplina.
 
-**Rastreabilidade:** RF28, RF29 · RN11 · RNF06
+**Rastreabilidade:** RF28, RF29 · RN11
 
 ---
 
