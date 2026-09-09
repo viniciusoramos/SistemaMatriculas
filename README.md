@@ -76,66 +76,69 @@ Todos os usuários possuem senha, utilizada para validação do respectivo login
 
 ## 3. Requisitos Funcionais
 
-### 3.1 Autenticação e Segurança
+> Cada requisito funcional descreve uma **ação realizada por um ator** do sistema.
+> Comportamentos internos ("o sistema valida...", "o sistema registra...") estão descritos
+> na [Seção 4 — Requisitos Não Funcionais](#4-requisitos-não-funcionais) e as restrições
+> aplicáveis a cada ação, na [Seção 5 — Regras de Negócio](#5-regras-de-negócio).
+
+### 3.1 Acesso ao Sistema
 
 | ID | Requisito | Ator | Prioridade |
 |---|---|---|---|
-| **RF01** | O sistema deve permitir que todo usuário (aluno, professor e secretaria) realize login informando identificador e senha. | Todos | Alta |
-| **RF02** | O sistema deve validar as credenciais informadas e negar o acesso quando o login ou a senha forem inválidos. | Todos | Alta |
-| **RF03** | O sistema deve direcionar o usuário autenticado ao menu correspondente ao seu perfil (Aluno, Professor ou Secretaria). | Todos | Alta |
-| **RF04** | O sistema deve permitir que o usuário autenticado altere sua própria senha. | Todos | Média |
-| **RF05** | O sistema deve permitir que o usuário encerre sua sessão (logout). | Todos | Baixa |
+| **RF01** | O aluno realiza login no sistema informando sua matrícula e sua senha. | Aluno | Alta |
+| **RF02** | O professor realiza login no sistema informando seu código e sua senha. | Professor | Alta |
+| **RF03** | A secretaria realiza login no sistema informando seu usuário e sua senha. | Secretaria | Alta |
+| **RF04** | O aluno, o professor e a secretaria alteram a própria senha de acesso. | Aluno, Professor, Secretaria | Média |
+| **RF05** | O aluno, o professor e a secretaria encerram a própria sessão (logout). | Aluno, Professor, Secretaria | Baixa |
 
 ### 3.2 Manutenção de Cadastros (Secretaria)
 
 | ID | Requisito | Ator | Prioridade |
 |---|---|---|---|
-| **RF06** | O sistema deve permitir à secretaria cadastrar, consultar, alterar e remover **cursos**, contendo nome e número de créditos. | Secretaria | Alta |
-| **RF07** | O sistema deve permitir à secretaria cadastrar, consultar, alterar e remover **disciplinas**, contendo código, nome, número de créditos e tipo (obrigatória ou optativa). | Secretaria | Alta |
-| **RF08** | O sistema deve permitir à secretaria associar disciplinas a um curso. | Secretaria | Alta |
-| **RF09** | O sistema deve permitir à secretaria cadastrar, consultar, alterar e remover **professores**, gerando as respectivas credenciais de acesso. | Secretaria | Alta |
-| **RF10** | O sistema deve permitir à secretaria cadastrar, consultar, alterar e remover **alunos**, vinculando-os a um curso e gerando as respectivas credenciais de acesso. | Secretaria | Alta |
-| **RF11** | O sistema deve permitir à secretaria associar um professor responsável a cada disciplina do currículo. | Secretaria | Alta |
+| **RF06** | A secretaria cadastra, consulta, altera e remove **cursos**, informando nome e número de créditos. | Secretaria | Alta |
+| **RF07** | A secretaria cadastra, consulta, altera e remove **disciplinas**, informando código, nome, número de créditos e tipo (obrigatória ou optativa). | Secretaria | Alta |
+| **RF08** | A secretaria associa disciplinas a um curso. | Secretaria | Alta |
+| **RF09** | A secretaria cadastra, consulta, altera e remove **professores**, definindo suas credenciais de acesso. | Secretaria | Alta |
+| **RF10** | A secretaria cadastra, consulta, altera e remove **alunos**, vinculando-os a um curso e definindo suas credenciais de acesso. | Secretaria | Alta |
+| **RF11** | A secretaria associa um professor responsável a cada disciplina do currículo. | Secretaria | Alta |
 
 ### 3.3 Currículo e Período de Matrículas (Secretaria)
 
 | ID | Requisito | Ator | Prioridade |
 |---|---|---|---|
-| **RF12** | O sistema deve permitir à secretaria gerar o **currículo do semestre**, definindo o conjunto de disciplinas ofertadas por curso naquele semestre. | Secretaria | Alta |
-| **RF13** | O sistema deve permitir à secretaria definir a data de início e a data de fim do **período de matrículas** de um semestre. | Secretaria | Alta |
-| **RF14** | O sistema deve permitir à secretaria encerrar o período de matrículas. | Secretaria | Alta |
-| **RF15** | Ao encerrar o período de matrículas, o sistema deve **ativar** automaticamente as disciplinas com 3 ou mais alunos matriculados e **cancelar** as demais. | Secretaria | Alta |
-| **RF16** | O sistema deve permitir à secretaria consultar o resultado do encerramento (disciplinas ativadas e canceladas, com a quantidade de matriculados). | Secretaria | Média |
+| **RF12** | A secretaria gera o **currículo do semestre**, selecionando as disciplinas ofertadas em cada curso. | Secretaria | Alta |
+| **RF13** | A secretaria define a data de início e a data de fim do **período de matrículas** de um semestre. | Secretaria | Alta |
+| **RF14** | A secretaria encerra o período de matrículas do semestre. | Secretaria | Alta |
+| **RF15** | A secretaria ativa as disciplinas que alcançaram pelo menos 3 alunos matriculados e cancela as demais ao encerrar o período de matrículas. | Secretaria | Alta |
+| **RF16** | A secretaria consulta o resultado do encerramento do período, com as disciplinas ativadas, as canceladas e a quantidade de matriculados de cada uma. | Secretaria | Média |
 
 ### 3.4 Matrícula (Aluno)
 
 | ID | Requisito | Ator | Prioridade |
 |---|---|---|---|
-| **RF17** | O sistema deve permitir ao aluno consultar as disciplinas ofertadas no currículo do semestre, exibindo as vagas disponíveis. | Aluno | Alta |
-| **RF18** | O sistema deve permitir ao aluno se matricular em até **4 disciplinas obrigatórias (1ª opção)**. | Aluno | Alta |
-| **RF19** | O sistema deve permitir ao aluno se matricular em até **2 disciplinas optativas (alternativas)**. | Aluno | Alta |
-| **RF20** | O sistema deve permitir ao aluno **cancelar** uma matrícula realizada anteriormente, enquanto o período de matrículas estiver aberto. | Aluno | Alta |
-| **RF21** | O sistema deve impedir a realização e o cancelamento de matrículas fora do período de matrículas, informando o motivo ao aluno. | Aluno | Alta |
-| **RF22** | O sistema deve impedir a matrícula em disciplina que já atingiu o limite de 60 alunos. | Aluno | Alta |
-| **RF23** | O sistema deve impedir a matrícula em duplicidade na mesma disciplina. | Aluno | Alta |
-| **RF24** | O sistema deve permitir ao aluno consultar o seu quadro de matrículas do semestre, indicando o tipo (obrigatória/optativa) e a situação de cada disciplina. | Aluno | Média |
+| **RF17** | O aluno consulta as disciplinas ofertadas no currículo do semestre e as vagas disponíveis em cada uma. | Aluno | Alta |
+| **RF18** | O aluno se matricula em até **4 disciplinas obrigatórias (1ª opção)** por semestre. | Aluno | Alta |
+| **RF19** | O aluno se matricula em até **2 disciplinas optativas (alternativas)** por semestre. | Aluno | Alta |
+| **RF20** | O aluno cancela matrículas realizadas anteriormente. | Aluno | Alta |
+| **RF21** | O aluno realiza e cancela matrículas somente durante o período de matrículas. | Aluno | Alta |
+| **RF22** | O aluno se matricula em uma disciplina somente enquanto ela tiver menos de 60 alunos matriculados. | Aluno | Alta |
+| **RF23** | O aluno se matricula uma única vez em cada disciplina do semestre. | Aluno | Alta |
+| **RF24** | O aluno consulta seu quadro de matrículas do semestre, com o tipo (obrigatória/optativa) e a situação de cada disciplina. | Aluno | Média |
 
 ### 3.5 Cobrança
 
 | ID | Requisito | Ator | Prioridade |
 |---|---|---|---|
-| **RF25** | Após o aluno concluir sua inscrição no semestre, o sistema deve **notificar o sistema de cobrança**, enviando a identificação do aluno, o semestre e as disciplinas matriculadas. | Sistema de Cobrança | Alta |
-| **RF26** | O sistema deve registrar as notificações enviadas ao sistema de cobrança, permitindo consulta posterior pela secretaria. | Secretaria | Baixa |
+| **RF25** | O sistema de cobrança recebe a notificação com a identificação do aluno, o semestre e as disciplinas matriculadas assim que o aluno conclui sua inscrição no semestre. | Sistema de Cobrança | Alta |
+| **RF26** | A secretaria consulta o histórico das notificações enviadas ao sistema de cobrança. | Secretaria | Baixa |
 
 ### 3.6 Consultas (Professor)
 
 | ID | Requisito | Ator | Prioridade |
 |---|---|---|---|
-| **RF27** | O sistema deve permitir ao professor consultar a lista de disciplinas sob sua responsabilidade no semestre corrente. | Professor | Alta |
-| **RF28** | O sistema deve permitir ao professor consultar a lista de alunos matriculados em cada uma de suas disciplinas. | Professor | Alta |
-| **RF29** | O sistema deve exibir ao professor a situação da disciplina (ativa, cancelada ou aguardando encerramento do período) e o total de matriculados. | Professor | Média |
-
----
+| **RF27** | O professor consulta as disciplinas sob sua responsabilidade no semestre corrente. | Professor | Alta |
+| **RF28** | O professor consulta os alunos matriculados em cada uma de suas disciplinas. | Professor | Alta |
+| **RF29** | O professor consulta a situação da disciplina (ativa, cancelada ou aguardando encerramento do período) e o total de matriculados. | Professor | Média |
 
 ## 4. Requisitos Não Funcionais
 
@@ -145,15 +148,17 @@ Todos os usuários possuem senha, utilizada para validação do respectivo login
 | **RNF02** | Interface | A interface do protótipo será em **linha de comando (CLI)**, com menus textuais organizados por perfil de usuário. |
 | **RNF03** | Persistência | Os dados devem ser persistidos em **arquivos**, garantindo que as informações permaneçam disponíveis entre execuções do sistema. |
 | **RNF04** | Segurança | As senhas dos usuários não devem ser armazenadas em texto puro; deve ser armazenado o *hash* da senha. |
-| **RNF05** | Segurança | O acesso a cada funcionalidade deve ser restrito ao perfil autorizado (aluno, professor ou secretaria). |
-| **RNF06** | Usabilidade | As mensagens de erro devem ser claras e indicar o motivo da recusa da operação (ex.: "disciplina lotada", "fora do período de matrículas"). |
-| **RNF07** | Desempenho | Operações de consulta e matrícula devem ser concluídas em até 2 segundos em uma base com até 1.000 alunos e 100 disciplinas. |
-| **RNF08** | Confiabilidade | A operação de matrícula deve ser atômica: em caso de falha, nenhuma alteração parcial deve ser gravada. |
-| **RNF09** | Manutenibilidade | O código deve ser organizado em camadas (modelo, persistência, serviço/regras de negócio e interface), com nomenclatura padronizada. |
-| **RNF10** | Portabilidade | O sistema deve executar em qualquer sistema operacional com JVM instalada (Windows, Linux e macOS). |
-| **RNF11** | Rastreabilidade | O repositório GitHub deve conter todas as versões dos modelos UML produzidos e o código-fonte final. |
-| **RNF12** | Integração | A notificação ao sistema de cobrança deve ser feita por uma interface bem definida, permitindo substituir a implementação sem impacto nas regras de matrícula. |
-| **RNF13** | Documentação | O sistema deve ser documentado por diagramas UML (casos de uso, classes e arquitetura), mantidos atualizados a cada sprint. |
+| **RNF05** | Segurança | O sistema deve validar as credenciais informadas no login e negar o acesso quando o identificador ou a senha forem inválidos, exibindo mensagem genérica que não revele qual dos dois está incorreto. |
+| **RNF06** | Segurança | O sistema deve restringir o acesso a cada funcionalidade ao perfil autorizado, apresentando ao usuário autenticado apenas o menu correspondente ao seu perfil (aluno, professor ou secretaria). |
+| **RNF07** | Usabilidade | As mensagens de erro devem ser claras e indicar o motivo da recusa da operação (ex.: "disciplina lotada", "fora do período de matrículas"). |
+| **RNF08** | Desempenho | Operações de consulta e matrícula devem ser concluídas em até 2 segundos em uma base com até 1.000 alunos e 100 disciplinas. |
+| **RNF09** | Confiabilidade | A operação de matrícula deve ser atômica: em caso de falha, nenhuma alteração parcial deve ser gravada. |
+| **RNF10** | Auditoria | O sistema deve registrar as notificações enviadas ao sistema de cobrança (data/hora, aluno, semestre, disciplinas e situação do envio), mantendo-as disponíveis para consulta pela secretaria. |
+| **RNF11** | Manutenibilidade | O código deve ser organizado em camadas (modelo, persistência, serviço/regras de negócio e interface), com nomenclatura padronizada. |
+| **RNF12** | Portabilidade | O sistema deve executar em qualquer sistema operacional com JVM instalada (Windows, Linux e macOS). |
+| **RNF13** | Rastreabilidade | O repositório GitHub deve conter todas as versões dos modelos UML produzidos e o código-fonte final. |
+| **RNF14** | Integração | A notificação ao sistema de cobrança deve ser feita por uma interface bem definida, permitindo substituir a implementação sem impacto nas regras de matrícula. |
+| **RNF15** | Documentação | O sistema deve ser documentado por diagramas UML (casos de uso, classes e arquitetura), mantidos atualizados a cada sprint. |
 
 ---
 
@@ -312,7 +317,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - Dado que informo uma senha incorreta, quando confirmo o acesso, então recebo "Login ou senha inválidos" e permaneço na tela de login.
 - Dado que não estou autenticado, quando tento acessar qualquer funcionalidade, então o acesso é negado.
 
-**Rastreabilidade:** RF01, RF02, RF03, RF05 · RN01 · RNF04, RNF05
+**Rastreabilidade:** RF01, RF02, RF03, RF05 · RN01 · RNF04, RNF05, RNF06
 
 ---
 
@@ -572,7 +577,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - Ao final, o sistema apresenta o relatório com disciplinas ativadas, canceladas e o número de matriculados de cada uma.
 - Dado que o período foi encerrado, quando um aluno tenta se matricular, então a operação é recusada.
 
-**Rastreabilidade:** RF14, RF15, RF16 · RN05, RN07, RN08, RN12 · RNF08
+**Rastreabilidade:** RF14, RF15, RF16 · RN05, RN07, RN08, RN12 · RNF09
 
 ---
 
@@ -645,7 +650,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - Dado que o período de matrículas está fechado, quando tento me matricular, então o sistema recusa e informa o motivo.
 - Dado que concluo minha inscrição no semestre, então o sistema de cobrança é notificado.
 
-**Rastreabilidade:** RF18, RF19, RF21, RF22, RF23, RF25 · RN03, RN04, RN05, RN06, RN09, RN10 · RNF08
+**Rastreabilidade:** RF18, RF19, RF21, RF22, RF23, RF25 · RN03, RN04, RN05, RN06, RN09, RN10 · RNF09
 
 ---
 
@@ -738,7 +743,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - A notificação é registrada e pode ser consultada posteriormente pela secretaria.
 - A integração é feita por uma interface, permitindo trocar a implementação sem alterar as regras de matrícula.
 
-**Rastreabilidade:** RF25, RF26 · RN10 · RNF12
+**Rastreabilidade:** RF25, RF26 · RN10 · RNF10, RNF14
 
 ---
 
@@ -767,7 +772,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - A listagem exibe apenas as disciplinas em que sou o professor responsável.
 - Cada disciplina exibe o total de matriculados e sua situação (ativa, cancelada ou aguardando encerramento).
 
-**Rastreabilidade:** RF27, RF29 · RN11 · RNF05
+**Rastreabilidade:** RF27, RF29 · RN11 · RNF06
 
 ---
 
@@ -797,7 +802,7 @@ pós-condições, fluxo principal, fluxos alternativos/de exceção e critérios
 - Dado que tento consultar uma disciplina de outro professor, então o acesso é negado.
 - O total de matriculados exibido corresponde ao número de matrículas ativas na disciplina.
 
-**Rastreabilidade:** RF28, RF29 · RN11 · RNF05
+**Rastreabilidade:** RF28, RF29 · RN11 · RNF06
 
 ---
 
